@@ -17,7 +17,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if (IrReceiver.decode()) {
-    Serial.println(IrReceiver.decodedIRData.command);
+    // Serial.println(IrReceiver.decodedIRData.command);
     //IrReceiver.printIRResultShort(&Serial);
     if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
         Serial.println(F("Received noise or an unknown (or not yet enabled) protocol"));
@@ -33,6 +33,48 @@ void loop() {
       break;
       case 71:
         currentcommand = 3;
+      break;
+      case 68:
+        currentcommand = 4;
+      break;
+      case 64:
+        currentcommand = 5;
+      break;
+      case 67:
+        currentcommand = 6;
+      break;
+      case 21:
+        currentcommand = 8;
+      break;
+      case 7:
+        currentcommand = 7;
+      break;
+      case 9:
+        currentcommand = 9;
+      break;
+      case 25:
+        currentcommand = 0;
+      break;
+      case 22:
+        currentcommand = 11; // Asterix
+      break;
+      case 13:
+        currentcommand = 12; // Hashtag
+      break;
+      case 24:
+        currentcommand = 13; // Up
+      break;
+      case 82:
+        currentcommand = 14; // Down
+      break;
+      case 8:
+        currentcommand = 15; // Left
+      break;
+      case 90:
+        currentcommand = 16; // Right
+      break;
+      case 28:
+        currentcommand = 17; // Ok
       break;
     }
     Serial.println(currentcommand);
