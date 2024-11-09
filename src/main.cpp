@@ -5,6 +5,9 @@
 
 #define DEBUG //serial print outputs
 
+#define BOOMSPEED 14
+#define BOOMPIN1 15
+#define BOOMPIN2 16
 #define IRPIN 10
 #define LEFT1 4
 #define LEFT2 2
@@ -15,11 +18,12 @@
 #define MAGNETPIN 11
 
 int currentcommand;
-Motors rover(LEFT1,LEFT2,LEFTSPEED,RIGHT1,RIGHT2,RIGHTSPEED);
-int magnetState;
+Motors rover(LEFT1, LEFT2, LEFTSPEED, RIGHT1, RIGHT2, RIGHTSPEED, BOOMPIN1, BOOMPIN2, BOOMSPEED);
+int magnetState = 0;
 int magnetPin = MAGNETPIN;
 
 long long timer;
+long long boomTimer;
 int inputTimeout = 100;
 
 
@@ -27,7 +31,9 @@ void setup() {
   Serial.begin(9600);
   rover.setSpeed(255);
   IrReceiver.begin(IRPIN, ENABLE_LED_FEEDBACK);
+  pinMode(magnetPin, OUTPUT);
   timer = millis();
+  boomTimer = millis();
 }
 
 void loop() {
@@ -57,8 +63,8 @@ void loop() {
       case 25:  currentcommand = 9;    rover.setSpeed(225); break;
 
       // Boom Arm Control
-      case 22:  currentcommand = 11;   rover.lowerBoom();     break; // Asterisk
-      case 13:  currentcommand = 12;   rover.raiseBoom();     break; // Hashtag
+      case 22:  currentcommand = 11; rover.setBoomSpeed(rover.getSpeed() / 1.5); rover.lowerBoom(); boomTimer = millis(); break; // Lower Boom
+      case 13:  currentcommand = 12; rover.setBoomSpeed(rover.getSpeed() / 1.5); rover.raiseBoom(); boomTimer = millis(); break; // Raise Boom
 
       // Directional Control
       case 24:  currentcommand = 13;   rover.moveForward(); timer = millis(); break; // Up
@@ -66,23 +72,23 @@ void loop() {
       case 8:   currentcommand = 15;   rover.turnLeft(); timer = millis(); break; // Left
       case 90:  currentcommand = 16;   rover.turnRight(); timer = millis(); break; // Right
 
-      // Stop Control
-      case 28:  
-      currentcommand = 17;   
-      if(magnetState == 0){
-        digitalWrite(magnetPin,HIGH);
-        magnetState=1;
-      }
-      else{
-        digitalWrite(magnetPin,LOW);
-        magnetState=0;
-      }
-      break; // OK
+      // Magnet Control
+      case 28:
+        currentcommand = 17;
+        if(magnetState == 0){
+          digitalWrite(magnetPin,HIGH);
+          magnetState=1;
+        }
+        else{
+          digitalWrite(magnetPin,LOW);
+          magnetState=0;
+        }
+        break; // OK
 
-      default:
-        Serial.println("Unknown Command.");
-        rover.stop();
-        break;
+        default:
+          Serial.println("Unknown Command.");
+          rover.stop();
+          break;
     }
 
     #ifdef DEBUG
