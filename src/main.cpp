@@ -5,17 +5,17 @@
 
 #define DEBUG //serial print outputs
 
-#define BOOMSPEED 14
+#define BOOMSPEED 10
 #define BOOMPIN1 15
 #define BOOMPIN2 16
-#define IRPIN 10
-#define LEFT1 4
-#define LEFT2 2
+#define IRPIN 8
+#define LEFT1 2
+#define LEFT2 4
 #define LEFTSPEED 9
 #define RIGHT1 7
 #define RIGHT2 5
 #define RIGHTSPEED 6
-#define MAGNETPIN 11
+#define MAGNETPIN 12
 
 int currentcommand;
 Motors rover(LEFT1, LEFT2, LEFTSPEED, RIGHT1, RIGHT2, RIGHTSPEED, BOOMPIN1, BOOMPIN2, BOOMSPEED);
@@ -63,8 +63,11 @@ void loop() {
       case 25:  currentcommand = 9;    rover.setSpeed(225); break;
 
       // Boom Arm Control
-      case 22:  currentcommand = 11; rover.setBoomSpeed(rover.getSpeed() / 1.5); rover.lowerBoom(); boomTimer = millis(); break; // Lower Boom
-      case 13:  currentcommand = 12; rover.setBoomSpeed(rover.getSpeed() / 1.5); rover.raiseBoom(); boomTimer = millis(); break; // Raise Boom
+      //rover.setBoomSpeed(rover.getSpeed() / 1.5);
+      case 22:  currentcommand = 11; rover.lowerBoom(); timer = millis(); break; // Lower Boom
+      case 13:  currentcommand = 12;
+      Serial.println(rover.getBoomSpeed());
+      rover.raiseBoom(); timer = millis(); break; // Raise Boom
 
       // Directional Control
       case 24:  currentcommand = 13;   rover.moveForward(); timer = millis(); break; // Up

@@ -13,8 +13,8 @@ class Motors{
   int boomPin2;
   int boomSpeedPin;
 
-  int speed;
-  int boomSpeed;
+  int speed = 100 ;
+  int boomSpeed = 120;
 
   public:
 
@@ -44,9 +44,9 @@ class Motors{
     speed = s;
   }
 
-  void setBoomSpeed(int s){
-    boomSpeed = s/1.5;
-  }
+  // void setBoomSpeed(int s){
+  //   boomSpeed = 100;
+  // }
 
   int getBoomSpeed() const {
     return boomSpeed;
