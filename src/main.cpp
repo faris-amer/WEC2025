@@ -25,11 +25,12 @@ int magnetPin = MAGNETPIN;
 long long timer;
 long long boomTimer;
 int inputTimeout = 100;
-
+int rovermode = 0;
 
 void setup() {
   Serial.begin(9600);
   rover.setSpeed(255);
+  
   IrReceiver.begin(IRPIN, ENABLE_LED_FEEDBACK);
   pinMode(magnetPin, OUTPUT);
   timer = millis();
@@ -51,10 +52,12 @@ void loop() {
     switch (IrReceiver.decodedIRData.command) {
 
       // Speed Control
-      case 69:  currentcommand = 0;    rover.setSpeed(0);     break;
-      case 70:  currentcommand = 1;    rover.setSpeed(25);  break;
-      case 71:  currentcommand = 2;    rover.setSpeed(51);    break;
-      case 68:  currentcommand = 3;    rover.setSpeed(77);  break;
+      case 69:  currentcommand = 0;
+      rover.setBoomSpeed(100);
+      break;
+      case 70:  currentcommand = 1;    rover.setBoomSpeed(255);  break;
+      case 71:  currentcommand = 2;    digitalWrite(magnetPin,LOW);    break;
+      case 68:  currentcommand = 3;    digitalWrite(magnetPin,HIGH);  break;
       case 64:  currentcommand = 4;    rover.setSpeed(102);   break;
       case 67:  currentcommand = 5;    rover.setSpeed(128); break;
       case 7:   currentcommand = 6;    rover.setSpeed(153);   break;

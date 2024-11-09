@@ -14,7 +14,7 @@ class Motors{
   int boomSpeedPin;
 
   int speed = 100 ;
-  int boomSpeed = 170;
+  int boomSpeed = 255;
 
   public:
 
@@ -109,6 +109,10 @@ class Motors{
     digitalWrite(boomPin1, LOW);
     digitalWrite(boomPin2, HIGH);
     analogWrite(boomSpeedPin, boomSpeed);
+  }
+
+  void setBoomSpeed(int s){
+    boomSpeed = s;
   }
 
   void stopBoom(){
