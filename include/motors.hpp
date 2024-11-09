@@ -14,7 +14,7 @@ class Motors{
   int boomSpeedPin;
 
   int speed = 100 ;
-  int boomSpeed = 120;
+  int boomSpeed = 170;
 
   public:
 
@@ -56,7 +56,7 @@ class Motors{
     return speed;
   }
 
-  void moveForward(){
+  void moveBackward(){
     digitalWrite(leftpin1,HIGH);
     digitalWrite(leftpin2,LOW);
     analogWrite(leftspeedpin,speed);
@@ -64,7 +64,7 @@ class Motors{
     digitalWrite(rightpin2,LOW);
     analogWrite(rightspeedpin,speed);
   }
-  void moveBackward(){
+  void moveForward(){
     digitalWrite(leftpin1,LOW);
     digitalWrite(leftpin2,HIGH);
     analogWrite(leftspeedpin,speed);
