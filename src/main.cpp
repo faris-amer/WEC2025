@@ -12,9 +12,12 @@
 #define RIGHT1 7
 #define RIGHT2 5
 #define RIGHTSPEED 6
+#define MAGNETPIN 11
 
 int currentcommand;
 Motors rover(LEFT1,LEFT2,LEFTSPEED,RIGHT1,RIGHT2,RIGHTSPEED);
+int magnetState;
+int magnetPin = MAGNETPIN;
 
 long long timer;
 int inputTimeout = 100;
@@ -64,7 +67,17 @@ void loop() {
       case 90:  currentcommand = 16;   rover.turnRight(); timer = millis(); break; // Right
 
       // Stop Control
-      case 28:  currentcommand = 17;   rover.stop();          rover.stopBoom(); break; // OK
+      case 28:  
+      currentcommand = 17;   
+      if(magnetState == 0){
+        digitalWrite(magnetPin,HIGH);
+        magnetState=1;
+      }
+      else{
+        digitalWrite(magnetPin,LOW);
+        magnetState=0;
+      }
+      break; // OK
 
       default:
         Serial.println("Unknown Command.");

@@ -8,6 +8,7 @@ class Motors{
   int rightpin1;
   int rightpin2;
   int rightspeedpin;
+  int speed;
   public:
 
   Motors(int lpin1, int lpin2, int lspeedpin,int rpin1, int rpin2, int rspeedpin){
@@ -19,7 +20,10 @@ class Motors{
     rightspeedpin = rspeedpin;
   }
 
-  void forwards(int speed){
+  void setSpeed(int s){
+    speed = s;
+  }
+  void moveForward(){
     digitalWrite(leftpin1,HIGH);
     digitalWrite(leftpin2,LOW);
     analogWrite(leftspeedpin,speed);
@@ -27,8 +31,7 @@ class Motors{
     digitalWrite(rightpin2,LOW);
     analogWrite(rightspeedpin,speed);
   }
-
-  void backwards(int speed){
+  void moveBackward(){
     digitalWrite(leftpin1,LOW);
     digitalWrite(leftpin2,HIGH);
     analogWrite(leftspeedpin,speed);
@@ -36,8 +39,7 @@ class Motors{
     digitalWrite(rightpin2,HIGH);
     analogWrite(rightspeedpin,speed);
   }
-
-  void left(int speed){
+  void turnLeft(){
     digitalWrite(leftpin1,LOW);
     digitalWrite(leftpin2,HIGH);
     analogWrite(leftspeedpin,speed);
@@ -45,7 +47,7 @@ class Motors{
     digitalWrite(rightpin2,LOW);
     analogWrite(rightspeedpin,speed);
   }
-  void right(int speed){
+  void turnRight(){
     digitalWrite(leftpin1,HIGH);
     digitalWrite(leftpin2,LOW);
     analogWrite(leftspeedpin,speed);
@@ -54,4 +56,17 @@ class Motors{
     analogWrite(rightspeedpin,speed);
   }
 
+
+  void stop(){
+    digitalWrite(leftpin1,LOW);
+    digitalWrite(leftpin2,LOW);
+    analogWrite(leftspeedpin,0);
+    digitalWrite(rightpin1,LOW);
+    digitalWrite(rightpin2,LOW);
+    analogWrite(rightspeedpin,0);
+  }
+  
+  void lowerBoom(){}
+  void raiseBoom(){}
+  void stopBoom(){}
 };
